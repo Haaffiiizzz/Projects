@@ -9,9 +9,9 @@ from bs4 import BeautifulSoup
 
 url = "https://www.beartracks.ualberta.ca/"
 
-# userCCID = input("Please enter your CCID: ").lower()
-# userPassword = input("Please enter your password: ")
-
+userCCID = input("Please enter your CCID: ").lower()
+userPassword = input("Please enter your password: ")
+info = {}
 
 def openProfile():
 
@@ -23,10 +23,10 @@ def openProfile():
     signOn.click()
 
     ccid = driver.find_element(By.ID, "username")
-    ccid.send_keys("aodada")
+    ccid.send_keys(userCCID)
 
     password = driver.find_element(By.ID, "user_pass")
-    password.send_keys("Jss3ajdssk06.")
+    password.send_keys(userPassword)
 
     login = driver.find_element(By.XPATH, "//*[@id='loginform']/input[3]")
     login.click()
@@ -37,11 +37,20 @@ def openProfile():
     
     profile.click()
     time.sleep(3)
-    print("driver shii", "\n\n\n", driver.page_source)
+
     soup = BeautifulSoup(driver.page_source, "html.parser")
     DOBEL = soup.find(id = "HCR_PERSON_I_BIRTHDATE")
-    print(DOBEL.text())
+    Gender = soup.find(id = "HCR_PER_PDE_I_SEX")
+    Country = soup.find(id = "ZCCV_CITIZEN_VW_DESCR1")
+    Status = soup.find(id = "ZCCV_CITIZEN_VW_DESCR")
+    SIN = soup.find(id = "SCC_PROF_FL_DRV_NATIONAL_ID")
+    info["DateOfBirth"] = DOBEL.text
+    info["Gender"] = Gender.text
+    info["Country"] = Country.text
+    info["Status"] = Status.text
+    info["SIN"] = SIN.text
     
     
 
 openProfile()
+print(info)
