@@ -8,5 +8,6 @@ PyQt6
 win10Toast
 playsound
 schedule
+BeautifulSoup
 
 
