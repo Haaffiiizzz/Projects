@@ -31,10 +31,12 @@ def openProfile():
 
     login = driver.find_element(By.XPATH, "//*[@id='loginform']/input[3]")
     login.click()
-        
+
     profile = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "win2div$ICField3"))
+        EC.presence_of_element_located((By.XPATH, "//*[@id='win30div$ICField21']/img"))
     )
+    
+    profile = driver.find_element(By.XPATH, "//*[@id='win30div$ICField21']")
     
     profile.click()
 
