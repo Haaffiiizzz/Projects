@@ -1,0 +1,1 @@
+Using Twilio Messaging API and A free weather API, I am trying to build a system that sends the daily weather forecast once or twice a day by SMS, and can also send on request. Lets see how far we go.
