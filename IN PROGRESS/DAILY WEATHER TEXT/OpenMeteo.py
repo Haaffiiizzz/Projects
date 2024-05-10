@@ -28,7 +28,7 @@ def getWeatherCode(latitude, longitude):
 	return response.Timezone(), response.TimezoneAbbreviation(), daily_weather_code
 
 def interpretWeatherCode(code):
-	codeFile = open("descriptions.json")
+	codeFile = open("code.json", "r")
 	codeDict = json.load(codeFile)
 	print(codeDict)
 
