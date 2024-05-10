@@ -15,7 +15,8 @@ def getWeatherCode(latitude, longitude):
 		"latitude": latitude,
 		"longitude": longitude,
 		"daily": "weather_code",
-		"timezone": "auto"
+		"timezone": "auto",
+		"forecast_days": 1
 	}
 	responses = openmeteo.weather_api(url, params=params)
 
@@ -23,16 +24,19 @@ def getWeatherCode(latitude, longitude):
 
 	daily = response.Daily()
 	daily_weather_code = daily.Variables(0).ValuesAsNumpy()
-
-	daily_weather_code = list(set(daily_weather_code))
+	
 	return response.Timezone(), response.TimezoneAbbreviation(), daily_weather_code
 
 def interpretWeatherCode(code):
-	codeFile = open("code.json", "r")
+	codeFile = open("IN PROGRESS\DAILY WEATHER TEXT\code.json")
 	codeDict = json.load(codeFile)
-	print(codeDict)
+	
+	day = codeDict[str(int(code))]["day"]["description"]
+	night = codeDict[str(int(code))]["night"]["description"]
+	return day, night
 
 timezone, timezoneAbbrev, weather_code = getWeatherCode(53.5501, -113.4687)
 print(f"Timezone {timezone} {timezoneAbbrev}")
-print(weather_code)
-interpretWeatherCode(weather_code)
+
+day, night= interpretWeatherCode(weather_code[0])
+print(day, night)
