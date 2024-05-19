@@ -4,6 +4,9 @@ from retry_requests import retry
 import json
 from twilio.rest import Client
 
+account_sid = "AC07ad148158c8b75259fb7eabb9669039"
+auth_token = "f4c771a62202ec17f78f9f53a353a5ff"
+client = Client(account_sid, auth_token)
 
 def getWeatherCode(latitude, longitude):
 	cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
@@ -35,9 +38,6 @@ def interpretWeatherCode(code):
 	return day, night
 
 def sendText(recepient, messageSend):
-	account_sid = "AC07ad148158c8b75259fb7eabb9669039"
-	auth_token = "5d598d576d3a238634a1008e5cb3fdb0"
-	client = Client(account_sid, auth_token)
 
 	message = client.messages \
 					.create(
@@ -46,7 +46,9 @@ def sendText(recepient, messageSend):
 						to= recepient
 					)
 	
-def getRecentText(sender):
+def getMessages():
+	print(client.messages.list())
+
 	
 
 timezone, timezoneAbbrev, weather_code = getWeatherCode(53.5501, -113.4687)
@@ -55,3 +57,4 @@ day, night= interpretWeatherCode(weather_code[0])
 messageText = f"Today in {timezone} the weather is going to be {day}. At night, it will be {night}! Dress for the weather. :)"
 
 sendText("+17803990244", messageText)
+getMessages()
