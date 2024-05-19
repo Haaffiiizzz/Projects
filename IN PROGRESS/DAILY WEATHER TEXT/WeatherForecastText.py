@@ -45,6 +45,9 @@ def sendText(recepient, messageSend):
 						from_='+13343264571',
 						to= recepient
 					)
+	
+def getRecentText(sender):
+	
 
 timezone, timezoneAbbrev, weather_code = getWeatherCode(53.5501, -113.4687)
 day, night= interpretWeatherCode(weather_code[0])
