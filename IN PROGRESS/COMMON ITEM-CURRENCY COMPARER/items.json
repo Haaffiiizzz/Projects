@@ -1,0 +1,19 @@
+{
+	"NGN": {
+		"pack of noodles": 150,
+        "loaf of bread": 1000,
+        "crate of egg": 3000,
+        "a bottle of water": 150,
+        "average rent / year": 250000 	
+    },
+
+	"CAD": {
+        "gallon of milk": 8,
+        "crate of egg": 10,
+        "cup of coffee": 3,
+        "pound of chicken": 6,
+        "average rent / year": 10000
+    }
+        
+		
+}
