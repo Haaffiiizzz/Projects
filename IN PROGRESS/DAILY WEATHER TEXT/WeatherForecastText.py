@@ -56,5 +56,5 @@ day, night= interpretWeatherCode(weather_code[0])
 
 messageText = f"Today in {timezone} the weather is going to be {day}. At night, it will be {night}! Dress for the weather. :)"
 
-sendText("+17803990244", messageText)
+#sendText("+17803990244", messageText)
 getMessages()
