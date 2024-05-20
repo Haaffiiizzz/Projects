@@ -1,9 +1,15 @@
 import json
-ratesFile = open(r"IN PROGRESS\COMMON ITEM-CURRENCY COMPARER\rates.json", "r")
-ratesDict = json.load(ratesFile)
+import requests
 
 itemsFile  = open(r"IN PROGRESS\COMMON ITEM-CURRENCY COMPARER\items.json", "r")
 itemsDict = json.load(itemsFile)
+
+# request for the rates from the api and returns the json file
+response = requests.get("https://v6.exchangerate-api.com/v6/b11b7775a7d823efffd22253/latest/USD")
+if response.status_code == 200:
+    ratesDict = response.json()["conversion_rates"]
+else:    
+    raise Exception("Not 200 code")
 
 def getCurrencyValues(baseCurr):
     # access how much 1 dollar is in base currency e.g 1000 naira
@@ -27,9 +33,9 @@ def createDict(comparedCurr, comparedUnit):
     return comparedDict
 
 def printComparedItems(baseCurr, baseUnits, comparedCurr, comparedDict):
-    
-    print(f"\nThis is what {baseUnits} {baseCurr} can buy in {comparedCurr} country:\n")
+    # printing out the stuffs
 
+    print(f"\nThis is what {baseUnits} {baseCurr} can buy in {comparedCurr} country:\n")
     for key, value in comparedDict.items():
         print(f"{value} {key.title()}")
 
@@ -42,8 +48,8 @@ def main():
     comparedCurr = input("\nType in the compared country's currency:\n").upper()
     comparedUnits = calculateComparedUnits(baseCurr, baseUnits, comparedCurr)
     comparedDict = createDict(comparedCurr, comparedUnits)
-    
     printComparedItems(baseCurr, baseUnits, comparedCurr, comparedDict)
+
 
 if __name__ == "__main__":
     main()
