@@ -11,6 +11,7 @@ if response.status_code == 200:
 else:    
     raise Exception("Not 200 code")
 
+
 def getCurrencyValues(baseCurr):
     # access how much 1 dollar is in base currency e.g 1000 naira
     return ratesDict[baseCurr]

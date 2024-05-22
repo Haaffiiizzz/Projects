@@ -1,0 +1,97 @@
+1	South Korea	6.80
+2	Sri Lanka	6.74
+3	Jamaica	6.03
+4	United States	5.29
+5	Venezuela	4.59
+6	Costa Rica	4.52
+7	Japan	4.52
+8	Cuba	4.38
+9	Singapore	4.24
+10	Canada	4.20
+11	Taiwan	4.12
+12	Nigeria	3.73
+13	Hong Kong (China)	3.71
+14	Switzerland	3.50
+15	Australia	3.23
+16	Panama	3.21
+17	Algeria	3.21
+18	Vietnam	3.15
+19	Israel	3.14
+20	Denmark	3.06
+21	Norway	3.00
+22	Mexico	2.99
+23	France	2.98
+24	Malta	2.88
+25	Germany	2.84
+26	New Zealand	2.84
+27	Luxembourg	2.78
+28	Sweden	2.77
+29	Cyprus	2.75
+30	Ireland	2.74
+31	Philippines	2.71
+32	Austria	2.70
+33	United Kingdom	2.69
+34	Indonesia	2.64
+35	Colombia	2.58
+36	Thailand	2.56
+37	Belgium	2.54
+38	Uruguay	2.48
+39	Finland	2.41
+40	Nepal	2.40
+41	Kenya	2.35
+42	Malaysia	2.35
+43	Oman	2.32
+44	Ecuador	2.25
+45	Kuwait	2.21
+46	Italy	2.21
+47	United Arab Emirates	2.20
+48	India	2.16
+49	Spain	2.15
+50	Portugal	2.14
+51	Saudi Arabia	2.13
+52	Mauritius	2.12
+53	Bolivia	2.09
+54	Bangladesh	2.09
+55	Brazil	2.07
+56	Chile	2.00
+57	Slovenia	1.97
+58	Qatar	1.94
+59	Greece	1.93
+60	Palestine	1.91
+61	China	1.87
+62	Jordan	1.84
+63	Netherlands	1.82
+64	Tunisia	1.76
+65	Estonia	1.74
+66	Slovakia	1.73
+67	Argentina	1.70
+68	Libya	1.68
+69	Czech Republic	1.60
+70	Peru	1.54
+71	Hungary	1.52
+72	Croatia	1.51
+73	South Africa	1.46
+74	Bulgaria	1.44
+75	Latvia	1.41
+76	Albania	1.40
+77	Lithuania	1.40
+78	Kazakhstan	1.38
+79	Uzbekistan	1.38
+80	Morocco	1.34
+81	Egypt	1.34
+82	Georgia	1.28
+83	Russia	1.24
+84	Bosnia And Herzegovina	1.15
+85	Armenia	1.15
+86	Romania	1.08
+87	Serbia	1.07
+88	Turkey	1.01
+89	Azerbaijan	1.01
+90	Pakistan	0.99
+91	Iraq	0.98
+92	Belarus	0.97
+93	Iran	0.96
+94	Poland	0.95
+95	North Macedonia	0.88
+96	Moldova	0.76
+97	Ukraine	0.69
