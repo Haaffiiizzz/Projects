@@ -16,16 +16,17 @@ def getCurrencyValues(baseCurr):
 def calculateComparedUnits(baseCurr, baseUnits, comparedCurr):
     # calculate how much in compared currency a unit of base currency is
     # for example 5 units of dollar * 1000 naira so 5000 naira
-    comparedUnits = ((1 / ratesDict[baseCurr]) *  baseUnits) * ratesDict[comparedCurr]
+    comparedCode = itemsDict[comparedCurr][0]
+    comparedUnits = ((1 / ratesDict[baseCurr]) *  baseUnits) * ratesDict[comparedCode]
     return comparedUnits
 
 def createDict(comparedCurr, comparedUnit):
     # retrieves the dictionary for the compared country's item and adjusts accordingly, returns
     # a dictionary with items and how many base currency can buy
 
-    comparedDict = itemsDict[comparedCurr]
+    comparedDict = itemsDict[comparedCurr][1]
     for key, value in comparedDict.items():
-        units = round(comparedUnit/value)
+        units = round(comparedUnit/float(value))
         comparedDict[key] = units
 
     return comparedDict
@@ -33,17 +34,16 @@ def createDict(comparedCurr, comparedUnit):
 def printComparedItems(baseCurr, baseUnits, comparedCurr, comparedDict):
     # printing out the stuffs
 
-    print(f"\nThis is what {baseUnits} {baseCurr} can buy in {comparedCurr} country:\n")
+    print(f"\nThis is what {baseUnits} {baseCurr} can buy in {comparedCurr}:\n")
     for key, value in comparedDict.items():
         print(f"{value} {key.title()}")
 
 
 def main():
-    base = input("\nType in the base currency, leave a space then type in how many units:\n").split(" ")
-    baseCurr = base[0].upper()
-    baseUnits = int(base[1])
+    baseCurr = input("Type in the base currency:\n").upper()
+    baseUnits = int(input("\nType in how many units:\n")) 
 
-    comparedCurr = input("\nType in the compared country's currency:\n").upper()
+    comparedCurr = input("Type in the compared country:\n").title()
     comparedUnits = calculateComparedUnits(baseCurr, baseUnits, comparedCurr)
     comparedDict = createDict(comparedCurr, comparedUnits)
     printComparedItems(baseCurr, baseUnits, comparedCurr, comparedDict)
