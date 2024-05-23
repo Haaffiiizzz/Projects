@@ -127,8 +127,8 @@
     "Loaf of Bread, 500g": "0.95",
     "Beef, 1KG": "9.99",
     "Water, 1.5 Liters": "0.64",
-    "Coke, 0.33 Liter": "And",
-    "Gasoline/Petrol, 1 Liter": "And",
+    "Coke, 0.33 Liter": "1.52",
+    "Gasoline/Petrol, 1 Liter": "1.48",
     "Apples, 1 KG": "1.15"
   },
   "Brazil": {
@@ -204,8 +204,8 @@
     "Loaf of Bread, 500g": "2.77",
     "Beef, 1KG": "12.95",
     "Water, 1.5 Liters": "2.39",
-    "Coke, 0.33 Liter": "Rica",
-    "Gasoline/Petrol, 1 Liter": "Rica",
+    "Coke, 0.33 Liter": "2.08",
+    "Gasoline/Petrol, 1 Liter": "1.50",
     "Apples, 1 KG": "4.52"
   },
   "Croatia": {
@@ -248,8 +248,8 @@
     "Loaf of Bread, 500g": "1.56",
     "Beef, 1KG": "12.68",
     "Water, 1.5 Liters": "0.70",
-    "Coke, 0.33 Liter": "Republic",
-    "Gasoline/Petrol, 1 Liter": "Republic",
+    "Coke, 0.33 Liter": "1.58",
+    "Gasoline/Petrol, 1 Liter": "1.67",
     "Apples, 1 KG": "1.60"
   },
   "Denmark": {
@@ -358,8 +358,8 @@
     "Loaf of Bread, 500g": "2.29",
     "Beef, 1KG": "23.49",
     "Water, 1.5 Liters": "1.67",
-    "Coke, 0.33 Liter": "Kong",
-    "Gasoline/Petrol, 1 Liter": "Kong",
+    "Coke, 0.33 Liter": "1.33",
+    "Gasoline/Petrol, 1 Liter": "3.08",
     "Apples, 1 KG": "3.71"
   },
   "Hungary": {
@@ -651,12 +651,12 @@
   "New Zealand": {
     "Eggs, 1 Dozen": "6.80",
     "Rice, 1 KG": "1.97",
-    "Milk, 1 Liter": "Zealand",
+    "Milk, 1 Liter": "1.85",
     "Loaf of Bread, 500g": "2.03",
     "Beef, 1KG": "13.29",
     "Water, 1.5 Liters": "1.14",
-    "Coke, 0.33 Liter": "Zealand",
-    "Gasoline/Petrol, 1 Liter": "Zealand",
+    "Coke, 0.33 Liter": "2.31",
+    "Gasoline/Petrol, 1 Liter": "1.72",
     "Apples, 1 KG": "2.84"
   },
   "Nigeria": {
@@ -677,8 +677,8 @@
     "Loaf of Bread, 500g": "0.71",
     "Beef, 1KG": "11.39",
     "Water, 1.5 Liters": "0.50",
-    "Coke, 0.33 Liter": "Macedonia",
-    "Gasoline/Petrol, 1 Liter": "Macedonia",
+    "Coke, 0.33 Liter": "1.48",
+    "Gasoline/Petrol, 1 Liter": "1.46",
     "Apples, 1 KG": "0.88"
   },
   "Norway": {
@@ -814,14 +814,14 @@
     "Apples, 1 KG": "1.24"
   },
   "Saudi Arabia": {
-    "Eggs, 1 Dozen": "2.15",
-    "Rice, 1 KG": "Arabia",
+    "Eggs, 1 Dozen": "2.61",
+    "Rice, 1 KG": "2.16",
     "Milk, 1 Liter": "1.66",
     "Loaf of Bread, 500g": "0.98",
     "Beef, 1KG": "13.02",
     "Water, 1.5 Liters": "0.62",
-    "Coke, 0.33 Liter": "Arabia",
-    "Gasoline/Petrol, 1 Liter": "Arabia",
+    "Coke, 0.33 Liter": "0.74",
+    "Gasoline/Petrol, 1 Liter": "0.62",
     "Apples, 1 KG": "2.13"
   },
   "Serbia": {
@@ -875,8 +875,8 @@
     "Loaf of Bread, 500g": "0.95",
     "Beef, 1KG": "6.52",
     "Water, 1.5 Liters": "0.91",
-    "Coke, 0.33 Liter": "Africa",
-    "Gasoline/Petrol, 1 Liter": "Korea",
+    "Coke, 0.33 Liter": "0.94",
+    "Gasoline/Petrol, 1 Liter": "1.29",
     "Apples, 1 KG": "1.46"
   },
   "South Korea": {
@@ -886,8 +886,8 @@
     "Loaf of Bread, 500g": "2.91",
     "Beef, 1KG": "30.87",
     "Water, 1.5 Liters": "1.06",
-    "Coke, 0.33 Liter": "Africa",
-    "Gasoline/Petrol, 1 Liter": "Korea",
+    "Coke, 0.33 Liter": "1.44",
+    "Gasoline/Petrol, 1 Liter": "1.22",
     "Apples, 1 KG": "6.80"
   },
   "Spain": {
@@ -903,13 +903,13 @@
   },
   "Sri Lanka": {
     "Eggs, 1 Dozen": "2.15",
-    "Rice, 1 KG": "Lanka",
-    "Milk, 1 Liter": "Lanka",
-    "Loaf of Bread, 500g": "Lanka",
+    "Rice, 1 KG": "0.78",
+    "Milk, 1 Liter": "1.61",
+    "Loaf of Bread, 500g": "0.62",
     "Beef, 1KG": "7.64",
     "Water, 1.5 Liters": "0.56",
-    "Coke, 0.33 Liter": "Lanka",
-    "Gasoline/Petrol, 1 Liter": "Lanka",
+    "Coke, 0.33 Liter": "0.70",
+    "Gasoline/Petrol, 1 Liter": "1.32",
     "Apples, 1 KG": "6.74"
   },
   "Sweden": {
@@ -991,24 +991,24 @@
   },
   "United Arab Emirates": {
     "Eggs, 1 Dozen": "2.01",
-    "Rice, 1 KG": "Kingdom",
+    "Rice, 1 KG": "1.99",
     "Milk, 1 Liter": "1.97",
     "Loaf of Bread, 500g": "1.42",
     "Beef, 1KG": "10.23",
     "Water, 1.5 Liters": "0.61",
-    "Coke, 0.33 Liter": "Arab",
-    "Gasoline/Petrol, 1 Liter": "Arab",
+    "Coke, 0.33 Liter": "1.10",
+    "Gasoline/Petrol, 1 Liter": "0.84",
     "Apples, 1 KG": "2.20"
   },
   "United Kingdom": {
-    "Eggs, 1 Dozen": "2.00",
-    "Rice, 1 KG": "Kingdom",
+    "Eggs, 1 Dozen": "3.74",
+    "Rice, 1 KG": "2.00",
     "Milk, 1 Liter": "1.57",
     "Loaf of Bread, 500g": "1.55",
     "Beef, 1KG": "13.40",
     "Water, 1.5 Liters": "1.35",
-    "Coke, 0.33 Liter": "Arab",
-    "Gasoline/Petrol, 1 Liter": "Arab",
+    "Coke, 0.33 Liter": "2.21",
+    "Gasoline/Petrol, 1 Liter": "1.92",
     "Apples, 1 KG": "2.69"
   },
   "United States": {
@@ -1018,8 +1018,8 @@
     "Loaf of Bread, 500g": "3.57",
     "Beef, 1KG": "16.02",
     "Water, 1.5 Liters": "2.19",
-    "Coke, 0.33 Liter": "Arab",
-    "Gasoline/Petrol, 1 Liter": "Arab",
+    "Coke, 0.33 Liter": "2.49",
+    "Gasoline/Petrol, 1 Liter": "0.97",
     "Apples, 1 KG": "5.29"
   },
   "Uruguay": {
