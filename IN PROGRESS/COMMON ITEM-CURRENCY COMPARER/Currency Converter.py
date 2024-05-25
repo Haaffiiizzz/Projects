@@ -1,5 +1,7 @@
 import json
-import requests
+import re
+import tkinter as tk
+from tkinter import ttk, messagebox
 
 itemsFile  = open(r"IN PROGRESS\COMMON ITEM-CURRENCY COMPARER\items.json", "r")
 itemsDict = json.load(itemsFile)
@@ -40,13 +42,39 @@ def printComparedItems(baseCurr, baseUnits, comparedCurr, comparedDict):
 
 
 def main():
-    baseCurr = input("Type in the base currency:\n").upper()
-    baseUnits = int(input("\nType in how many units:\n")) 
+    root = tk.Tk()
+    root.title("Currency comparison.")
 
-    comparedCurr = input("Type in the compared country:\n").title()
-    comparedUnits = calculateComparedUnits(baseCurr, baseUnits, comparedCurr)
-    comparedDict = createDict(comparedCurr, comparedUnits)
-    printComparedItems(baseCurr, baseUnits, comparedCurr, comparedDict)
+    ttk.Label(root, text="Base Currency:").grid(column=0, row=0, padx=10, pady=5, sticky=tk.W)
+    baseCurrency = ttk.Combobox(root, values=list(ratesDict.keys()))
+    baseCurrency.grid(column=1, row=0, padx=10, pady=5)
+    baseCurrency.current(0)
+
+    ttk.Label(root, text="Units:").grid(column=0, row=1, padx=10, pady=5, sticky=tk.W)
+    baseUnitsVar = tk.StringVar()
+    baseUnits = ttk.Entry(root, textvariable=baseUnitsVar)
+    baseUnits.grid(column=1, row=1, padx=10, pady=5)
+
+    ttk.Label(root, text="Compared Country:").grid(column=0, row=2, padx=10, pady=5, sticky=tk.W)
+    comparedCurr = ttk.Combobox(root, value=list(itemsDict.keys()))
+    comparedCurr.grid(column=1, row=2, padx=10, pady=5)
+    comparedCurr.current(0)
+
+    ttk.Label(root, text="Item:").grid(column=0, row=3, padx=10, pady=5, sticky=tk.W)
+    item = ttk.Combobox(root, values=["All"] + list(itemsDict["United States"][1].keys()))
+    item.grid(column=1, row=3, padx=10, pady=5)
+    item.current(0)
+
+
+    root.mainloop()
+
+    # baseCurr = input("Type in the base currency:\n").upper()
+    # baseUnits = int(input("\nType in how many units:\n")) 
+
+    # comparedCurr = input("Type in the compared country:\n").title()
+    # comparedUnits = calculateComparedUnits(baseCurr, baseUnits, comparedCurr)
+    # comparedDict = createDict(comparedCurr, comparedUnits)
+    # printComparedItems(baseCurr, baseUnits, comparedCurr, comparedDict)
 
 
 if __name__ == "__main__":
