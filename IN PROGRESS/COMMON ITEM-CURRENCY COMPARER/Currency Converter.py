@@ -31,12 +31,13 @@ def compareCurrency():
 
 def printComparedItems(Dict):
     
-
-    print(f"\nThis is what {baseUnits.get()} {baseCurrency.get()} can buy in {comparedCurr.get()}:\n")
+    resultText = f"\nThis is what {baseUnits.get()} {baseCurrency.get()} can buy in {comparedCurr.get()}:\n\n"
     for key, value in Dict.items():
-        print(f"{value} {key.title()}")
+        resultText += f"{key}: {value if value > 0 else '<1'}\n"
 
-def updateItems():
+    result.config(text = resultText)
+
+def updateItems(*args):
     compared = comparedCurr.get().title()
     
     if compared in itemsDict:
@@ -79,8 +80,8 @@ updateItems()
 compareButton = ttk.Button(root, text= "Compare", command = compareCurrency)
 compareButton.grid(column=0, row=4, columnspan=2, padx=10, pady=10)
 
-result_label = ttk.Label(root, text="", justify=tk.LEFT)
-result_label.grid(column=0, row=5, columnspan=2, padx=10, pady=10)
+result = ttk.Label(root, text="", justify=tk.LEFT)
+result.grid(column=0, row=5, columnspan=2, padx=10, pady=10)
 
 root.mainloop()
 
