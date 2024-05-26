@@ -9,5 +9,6 @@ win10Toast
 playsound
 schedule
 BeautifulSoup
-
+tkinter
+requests
 
