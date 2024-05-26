@@ -1,12 +1,11 @@
 import json
-import re
 import tkinter as tk
 from tkinter import ttk
 
-itemsFile  = open(r"IN PROGRESS\COMMON ITEM-CURRENCY COMPARER\items.json", "r")
+itemsFile  = open(r"FINISHED\COMMON ITEM-CURRENCY COMPARER\items.json", "r")
 itemsDict = json.load(itemsFile)
 
-with open(r"IN PROGRESS\COMMON ITEM-CURRENCY COMPARER\rates.json", "r") as file:
+with open(r"FINISHED\COMMON ITEM-CURRENCY COMPARER\rates.json", "r") as file:
     file = file.read()
     ratesDict = json.loads(file)
 
