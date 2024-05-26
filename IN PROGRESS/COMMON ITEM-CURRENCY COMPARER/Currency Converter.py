@@ -10,75 +10,82 @@ with open(r"IN PROGRESS\COMMON ITEM-CURRENCY COMPARER\rates.json", "r") as file:
     file = file.read()
     ratesDict = json.loads(file)
 
+def calculateUnits(price, baseValue):
 
-def getCurrencyValues(baseCurr):
-    # access how much 1 dollar is in base currency e.g 1000 naira
-    return ratesDict[baseCurr]
+    units = baseValue/float(price)
+    return round(units)
 
-def calculateComparedUnits(baseCurr, baseUnits, comparedCurr):
-    # calculate how much in compared currency a unit of base currency is
-    # for example 5 units of dollar * 1000 naira so 5000 naira
-    comparedCode = itemsDict[comparedCurr][0]
-    comparedUnits = ((1 / ratesDict[baseCurr]) *  baseUnits) * ratesDict[comparedCode]
-    return comparedUnits
+def compareCurrency():
+    baseValue = float(baseUnits.get()) / int(ratesDict[baseCurrency.get()]) 
+    itemUnitDict = {}
 
-def createDict(comparedCurr, comparedUnit):
-    # retrieves the dictionary for the compared country's item and adjusts accordingly, returns
-    # a dictionary with items and how many base currency can buy
+    if itemsBox.get() == "All":
+        for item, price in itemsDict[comparedCurr.get()][1].items():
+            itemUnitDict[item] = calculateUnits(price, baseValue)
 
-    comparedDict = itemsDict[comparedCurr][1]
-    for key, value in comparedDict.items():
-        units = round(comparedUnit/float(value))
-        comparedDict[key] = units
+    else:
+        item = itemsBox.get()
+        itemUnitDict[item] = calculateUnits(itemsDict[comparedCurr.get()][1][item], baseValue)     
 
-    return comparedDict
+    printComparedItems(itemUnitDict)
 
-def printComparedItems(baseCurr, baseUnits, comparedCurr, comparedDict):
-    # printing out the stuffs
+def printComparedItems(Dict):
+    
 
-    print(f"\nThis is what {baseUnits} {baseCurr} can buy in {comparedCurr}:\n")
-    for key, value in comparedDict.items():
+    print(f"\nThis is what {baseUnits.get()} {baseCurrency.get()} can buy in {comparedCurr.get()}:\n")
+    for key, value in Dict.items():
         print(f"{value} {key.title()}")
 
-
-def main():
-    root = tk.Tk()
-    root.title("Currency comparison.")
-
-    ttk.Label(root, text="Base Currency:").grid(column=0, row=0, padx=10, pady=5, sticky=tk.W)
-    baseCurrency = ttk.Combobox(root, values=list(ratesDict.keys()))
-    baseCurrency.grid(column=1, row=0, padx=10, pady=5)
-    baseCurrency.current(0)
-
-    ttk.Label(root, text="Units:").grid(column=0, row=1, padx=10, pady=5, sticky=tk.W)
-    baseUnitsVar = tk.StringVar()
-    baseUnits = ttk.Entry(root, textvariable=baseUnitsVar)
-    baseUnits.grid(column=1, row=1, padx=10, pady=5)
-
-    ttk.Label(root, text="Compared Country:").grid(column=0, row=2, padx=10, pady=5, sticky=tk.W)
-    comparedCurr = ttk.Combobox(root, value=list(itemsDict.keys()))
-    comparedCurr.grid(column=1, row=2, padx=10, pady=5)
-    comparedCurr.current(0)
-
-    ttk.Label(root, text="Item:").grid(column=0, row=3, padx=10, pady=5, sticky=tk.W)
-    item = ttk.Combobox(root, values=["All"] + list(itemsDict["United States"][1].keys()))
-    item.grid(column=1, row=3, padx=10, pady=5)
-    item.current(0)
+def updateItems():
+    compared = comparedCurr.get().title()
+    
+    if compared in itemsDict:
+        items = list(itemsDict[compared][1].keys())
+        items.insert(0, "All")
+        itemsBox['values'] = items
+        if items:
+            itemsBox.current(0)
+    else:
+        itemsBox.set('')
 
 
-    root.mainloop()
 
-    # baseCurr = input("Type in the base currency:\n").upper()
-    # baseUnits = int(input("\nType in how many units:\n")) 
+root = tk.Tk()
+root.title("Currency comparison.")
 
-    # comparedCurr = input("Type in the compared country:\n").title()
-    # comparedUnits = calculateComparedUnits(baseCurr, baseUnits, comparedCurr)
-    # comparedDict = createDict(comparedCurr, comparedUnits)
-    # printComparedItems(baseCurr, baseUnits, comparedCurr, comparedDict)
+ttk.Label(root, text="Base Currency:").grid(column=0, row=0, padx=10, pady=5, sticky=tk.W)
+baseCurrency = ttk.Combobox(root, values=list(ratesDict.keys()))
+baseCurrency.grid(column=1, row=0, padx=10, pady=5)
+baseCurrency.current(0)
+
+ttk.Label(root, text="Units:").grid(column=0, row=1, padx=10, pady=5, sticky=tk.W)
+baseUnitsVar = tk.StringVar()
+baseUnits = ttk.Entry(root, textvariable=baseUnitsVar)
+baseUnits.grid(column=1, row=1, padx=10, pady=5)
 
 
-if __name__ == "__main__":
-    main()
+ttk.Label(root, text="Compared Country:").grid(column=0, row=2, padx=10, pady=5, sticky=tk.W)
+comparedCurr = ttk.Combobox(root, value=list(itemsDict.keys()))
+comparedCurr.grid(column=1, row=2, padx=10, pady=5)
+comparedCurr.current(0)
+comparedCurr.bind("<<ComboboxSelected>>", updateItems)
+
+
+ttk.Label(root, text="Item:").grid(column=0, row=3, padx=10, pady=5, sticky=tk.W)
+itemsBox= ttk.Combobox(root)
+itemsBox.grid(column=1, row=3, padx=10, pady=5)
+updateItems()
+
+compareButton = ttk.Button(root, text= "Compare", command = compareCurrency)
+compareButton.grid(column=0, row=4, columnspan=2, padx=10, pady=10)
+
+result_label = ttk.Label(root, text="", justify=tk.LEFT)
+result_label.grid(column=0, row=5, columnspan=2, padx=10, pady=10)
+
+root.mainloop()
+
+
+
 
 
 
