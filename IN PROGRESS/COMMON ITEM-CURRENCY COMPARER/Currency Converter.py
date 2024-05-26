@@ -1,7 +1,7 @@
 import json
 import re
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk
 
 itemsFile  = open(r"IN PROGRESS\COMMON ITEM-CURRENCY COMPARER\items.json", "r")
 itemsDict = json.load(itemsFile)
@@ -50,37 +50,43 @@ def updateItems(*args):
         itemsBox.set('')
 
 
-
 root = tk.Tk()
 root.title("Currency comparison.")
 
+style = ttk.Style()
+style.configure("TLabel", font=("Verdana", 12, "bold"))
+style.configure("TButton", font=("Verdana", 12, "bold"))
+style.configure("TCombobox", font=("Verdana", 12, "bold"))
+style.configure("TEntry", font=("Verdana", 12, "bold"))
+
+
 ttk.Label(root, text="Base Currency:").grid(column=0, row=0, padx=10, pady=5, sticky=tk.W)
-baseCurrency = ttk.Combobox(root, values=list(ratesDict.keys()))
+baseCurrency = ttk.Combobox(root, values=list(ratesDict.keys()), state="readonly")
 baseCurrency.grid(column=1, row=0, padx=10, pady=5)
 baseCurrency.current(0)
 
 ttk.Label(root, text="Units:").grid(column=0, row=1, padx=10, pady=5, sticky=tk.W)
-baseUnitsVar = tk.StringVar()
-baseUnits = ttk.Entry(root, textvariable=baseUnitsVar)
+baseUnitsVar = tk.StringVar(value="1")
+baseUnits = ttk.Entry(root, textvariable=baseUnitsVar, font=("Verdana", 10))
 baseUnits.grid(column=1, row=1, padx=10, pady=5)
 
 
 ttk.Label(root, text="Compared Country:").grid(column=0, row=2, padx=10, pady=5, sticky=tk.W)
-comparedCurr = ttk.Combobox(root, value=list(itemsDict.keys()))
+comparedCurr = ttk.Combobox(root, value=list(itemsDict.keys()), state="readonly")
 comparedCurr.grid(column=1, row=2, padx=10, pady=5)
 comparedCurr.current(0)
 comparedCurr.bind("<<ComboboxSelected>>", updateItems)
 
 
 ttk.Label(root, text="Item:").grid(column=0, row=3, padx=10, pady=5, sticky=tk.W)
-itemsBox= ttk.Combobox(root)
+itemsBox= ttk.Combobox(root, state="readonly")
 itemsBox.grid(column=1, row=3, padx=10, pady=5)
 updateItems()
 
 compareButton = ttk.Button(root, text= "Compare", command = compareCurrency)
 compareButton.grid(column=0, row=4, columnspan=2, padx=10, pady=10)
 
-result = ttk.Label(root, text="", justify=tk.LEFT)
+result = ttk.Label(root, text="", justify=tk.LEFT, font=("Verdana", 10), wraplength=400)
 result.grid(column=0, row=5, columnspan=2, padx=10, pady=10)
 
 root.mainloop()
