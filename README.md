@@ -11,4 +11,6 @@ schedule
 BeautifulSoup
 tkinter
 requests
+pydantics
+fastapi
 
