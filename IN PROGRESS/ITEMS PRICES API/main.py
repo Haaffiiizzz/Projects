@@ -1,15 +1,11 @@
 from fastapi import FastAPI
 from fastapi.params import Body
 from pydantic import BaseModel
-import os
 import json
-
-jsonPath = os.path.join(os.getcwd(),'countries.json')
-with open("IN PROGRESS\ITEMS PRICES API\countries.json", "r") as file:
-    data = json.load(file)
-
-
 app = FastAPI()
+
+file = open(r"C:\Users\dadaa\Projects\IN PROGRESS\ITEMS PRICES API\countries.json", "r")
+data = json.load(file)
 
 class AddData(BaseModel):
     #  this makes sure we are getting the right data format else it
