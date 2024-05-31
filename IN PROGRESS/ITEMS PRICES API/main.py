@@ -5,7 +5,7 @@ import os
 import json
 
 jsonPath = os.path.join(os.getcwd(),'countries.json')
-with open(jsonPath, "r") as file:
+with open("IN PROGRESS\ITEMS PRICES API\countries.json", "r") as file:
     data = json.load(file)
 
 
