@@ -23,13 +23,13 @@ def root():
 def getPrices():
     #  in this path we should return a json of all the countries
     #  and their items and prices
-    return data
+    return {"countries": data}
 
 @app.get("/countries/{country}")
 def getCountryPrices(country: str):
     #  in this path we should return a json of just a country
     #  and its items and prices
-    return data[country]
+    return {"country": data[country]}
 
 @app.post("/addprice")
 def addPrice(newData: AddData):
