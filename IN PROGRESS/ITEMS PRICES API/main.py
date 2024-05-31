@@ -1,6 +1,13 @@
 from fastapi import FastAPI
 from fastapi.params import Body
 from pydantic import BaseModel
+import os
+import json
+
+jsonPath = os.path.join(os.getcwd(),'countries.json')
+with open(jsonPath, "r") as file:
+    data = json.load(file)
+
 
 app = FastAPI()
 
@@ -9,18 +16,24 @@ class AddData(BaseModel):
     # throws and error
     country: str
     price: dict
-   
+
 
 @app.get("/")
 def root():
     # this is the base site without any paths
     return {"message": "Welcome to my API"}
 
-@app.get("/allprices")
+@app.get("/countries")
 def getPrices():
-    #  in this path we shouild return a json of all the countries
+    #  in this path we should return a json of all the countries
     #  and their items and prices
-    return {"Country": "Price"}
+    return data
+
+@app.get("/countries/{country}")
+def getCountryPrices(country: str):
+    #  in this path we should return a json of just a country
+    #  and its items and prices
+    return data[country]
 
 @app.post("/addprice")
 def addPrice(newData: AddData):
