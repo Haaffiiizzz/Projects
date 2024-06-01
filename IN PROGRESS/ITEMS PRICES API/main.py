@@ -15,7 +15,8 @@ class AddData(BaseModel):
 @app.get("/")
 def root():
     # this is the base site without any paths
-    return {"message": "Welcome to my API"}
+    return {"message": f"Welcome to my API. Below is a list of all countries available.",
+            "countries": [key for key in data.keys()]}
 
 
 @app.get("/countries")
@@ -28,13 +29,13 @@ def getPrices():
 def getCountryPrices(country: str):
     #  in this path we should return a json of just a country
     #  and its items and prices
-    if country not in data:
+    if country.title() not in data:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"{country} not found")
-    return {"country": data[country]}
+    return {"country": data[country.title()]}
 
 
-@app.post("/countries/{country}")
+@app.post("/countries/{country}", status_code=status.HTTP_201_CREATED)
 def addPrice(country, newData: AddData = Body(...)):
     #  first check to make sure we have the right data format
     #  send back to user and print data
