@@ -34,8 +34,13 @@ class AddData(BaseModel):
 @app.get("/")
 def root():
     # this is the base site without any paths
+    cursor.execute('SELECT name FROM "Countries";')
+    countries = cursor.fetchall()
+    country_names = [country['name'] for country in countries]
+
     return {"message": f"Welcome to my API. Below is a list of all countries available.",
-            "countries": [key for key in data.keys()]}
+            "countries": country_names}
+
 
 
 @app.get("/countries")
