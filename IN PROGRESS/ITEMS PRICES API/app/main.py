@@ -2,10 +2,28 @@ from fastapi import FastAPI, status, HTTPException, Body
 from pydantic import BaseModel
 import json
 import psycopg2
+from psycopg2.extras import RealDictCursor
+
 app = FastAPI()
 
 file = open(r"C:\Users\dadaa\Projects\IN PROGRESS\ITEMS PRICES API\countries.json", "r")
 data = json.load(file)
+
+try:
+    conn = psycopg2.connect(
+    dbname="ItemsAPI",
+    user="postgres",
+    password="Jss3ajdssk06.",
+    host="localhost",
+    port="5432",
+    cursor_factory=RealDictCursor
+)
+    cursor = conn.cursor()
+    print("Database connection was successful")
+     
+except Exception as Ex:
+    print("Error", Ex.args[0])
+
 
 class AddData(BaseModel):
     #  this makes sure we are getting the right data format else it
