@@ -47,16 +47,33 @@ def root():
 def getPrices():
     #  in this path we should return a json of all the countries
     #  and their items and prices
-    return {"countries": data}
+    cursor.execute('SELECT * FROM "Countries";')
+    countries = cursor.fetchall()
+    # first get the data from the database
+
+    countriesDict = {}
+    for row in countries:
+        name = row['name']
+        items = {key : value for key, value in row.items() if key != 'name'}
+        countriesDict[name] = items
+
+    # then format accordingly and return
+    return countriesDict
 
 @app.get("/countries/{country}")
 def getCountryPrices(country: str):
     #  in this path we should return a json of just a country
     #  and its items and prices
-    if country.title() not in data:
+    cursor.execute(f'SELECT * FROM "Countries" WHERE name = \'{country}\';')
+    row = cursor.fetchone()
+
+    if not row:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"{country} not found")
-    return {"country": data[country.title()]}
+    
+    items = {key: value for key, value in row.items() if key != 'name'}
+    return {"Country": country,
+            "Items": items}
 
 
 @app.post("/countries/{country}", status_code=status.HTTP_201_CREATED)
