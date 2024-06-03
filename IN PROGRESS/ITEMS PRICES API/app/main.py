@@ -1,6 +1,7 @@
 from fastapi import FastAPI, status, HTTPException, Body
 from pydantic import BaseModel
 import json
+import psycopg2
 app = FastAPI()
 
 file = open(r"C:\Users\dadaa\Projects\IN PROGRESS\ITEMS PRICES API\countries.json", "r")
