@@ -13,4 +13,6 @@ tkinter
 requests
 pydantics
 fastapi
+psycopg2
+sqlalchemy
 
