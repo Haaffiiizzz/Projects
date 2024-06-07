@@ -4,7 +4,8 @@ file = open("countries.json", "r")
 data = json.load(file)
 
 
-
+password = open("password.txt", "r").read()
+password = password.strip()
 
 
 # Convert the dictionary to JSON strings for storage
@@ -19,7 +20,7 @@ for prices_list in data.values():
 conn = psycopg2.connect(
     dbname="ItemsAPI",
     user="postgres",
-    password="Jss3ajdssk06.",
+    password=password,
     host="localhost",
     port="5432"
 )
