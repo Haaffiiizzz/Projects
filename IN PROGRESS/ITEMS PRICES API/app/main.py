@@ -1,10 +1,16 @@
-from fastapi import FastAPI, status, HTTPException, Body
+from fastapi import FastAPI, status, HTTPException, Body, Depends
 from pydantic import BaseModel
 import psycopg2
 from psycopg2.extras import RealDictCursor
+import models
+from database import engine, Base, get_db
+from sqlalchemy.orm import Session
 
+
+models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
-password = open("password.txt", "r").read()
+
+password = open(r"C:\Users\dadaa\OneDrive\Desktop\password.txt", "r").read()
 password = password.strip()
 try:
     conn = psycopg2.connect(
@@ -21,10 +27,17 @@ except Exception as Ex:
     print("Error", Ex.args[0])
 
 
+
+
 class AddData(BaseModel):
     #  this makes sure we are getting the right data format else it
     # throws and error
     items: dict
+
+@app.get("/sqlalchemy")
+def test_posts(db: Session = Depends(get_db)):
+    return {"Status": "Success"}
+
 
 
 @app.get("/")
