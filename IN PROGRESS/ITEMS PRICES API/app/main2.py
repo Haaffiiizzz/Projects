@@ -4,7 +4,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 
 app = FastAPI()
-password = open("password.txt", "r").read()
+password = open(r"C:\Users\dadaa\OneDrive\Desktop\password.txt", "r").read()
 password = password.strip()
 try:
     conn = psycopg2.connect(

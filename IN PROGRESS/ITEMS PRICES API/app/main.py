@@ -4,11 +4,14 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import models
 from database import engine, Base, get_db
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session 
+from sqlalchemy import Table, MetaData
 
 
-models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
+
+metadata = MetaData()
+countriesTable = Table('Countries1', metadata, autoload_with=engine)
 
 password = open(r"C:\Users\dadaa\OneDrive\Desktop\password.txt", "r").read()
 password = password.strip()
@@ -36,9 +39,18 @@ class AddData(BaseModel):
 
 @app.get("/sqlalchemy")
 def test_posts(db: Session = Depends(get_db)):
-    return {"Status": "Success"}
 
+    countries = db.query(countriesTable).all()
+    result = [{column.name: getattr(row, column.name) for column in countriesTable.columns} for row in countries]
+    # result is a list of dicts, with each cloumn name in the table as key
+    # and the items in the columns as values
+    resultDict = {}
+    for Dict in result:
+        name = Dict["name"]
+        itemsDict = {key:value for key, value in Dict.items() if key != "name"}
+        resultDict[name] = itemsDict
 
+    return resultDict
 
 @app.get("/")
 def root():

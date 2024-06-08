@@ -5,3 +5,8 @@ class Countries(Base):
 
     name = Column(String, primary_key = True, nullable =False)
     items = Column(JSON, nullable=False)
+
+# class Country(Base):
+#     __tablename__ = "countries1"
+
+#     name = Column(String, primary_key=True, nullable=False)
