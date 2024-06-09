@@ -37,8 +37,26 @@ class AddData(BaseModel):
     # throws and error
     items: dict
 
-@app.get("/sqlalchemy")
-def test_posts(db: Session = Depends(get_db)):
+
+@app.get("/")
+def root(db: Session = Depends(get_db)):
+    # this is the base site without any paths
+
+    # cursor.execute('SELECT name FROM "Countries1";')
+    # countries = cursor.fetchall()
+    # countryNames = [country['name'] for country in countries]  # basically saying for dict in the list of dicts?
+    # # or dict of dict i think. doesnt matter lol
+
+    countries = db.query(countriesTable).all()
+    countryNames = [row.name for row in countries]
+    return {"message": f"Welcome to my API. Below is a list of all countries available.",
+            "countries": countryNames}
+
+    # note: fetch all or fetch one fetch the row(s) as dict
+    #  so each row column title as jey, and the row value as values
+
+@app.get("/countries")
+def getPrices(db: Session = Depends(get_db)):
 
     countries = db.query(countriesTable).all()
     result = [{column.name: getattr(row, column.name) for column in countriesTable.columns} for row in countries]
@@ -52,45 +70,13 @@ def test_posts(db: Session = Depends(get_db)):
 
     return resultDict
 
-@app.get("/")
-def root():
-    # this is the base site without any paths
-
-    cursor.execute('SELECT name FROM "Countries";')
-    countries = cursor.fetchall()
-    countryNames = [country['name'] for country in countries]  # basically saying for dict in the list of dicts?
-    # or dict of dict i think. doesnt matter lol
-
-    return {"message": f"Welcome to my API. Below is a list of all countries available.",
-            "countries": countryNames}
-
-    # note: fetch all or fetch one fetch the row(s) as dict
-    #  so each row column title as jey, and the row value as values
-
-@app.get("/countries")
-def getPrices():
-    #  in this path we should return a json of all the countries
-    #  and their items and prices
-    cursor.execute('SELECT * FROM "Countries";')
-    countries = cursor.fetchall()
-    # first get the data from the database
-
-    countriesDict = {}
-    for row in countries:
-        name = row['name']
-        items = {key : value for key, value in row.items() if key != 'name'}
-        countriesDict[name] = items
-
-    # then format accordingly and return
-    return countriesDict
-
 @app.get("/countries/{country}")
 def getCountryPrices(country: str):
     #  in this path we should return a json of just a country
     #  and its items and prices
     country = country.title()
 
-    cursor.execute(f'SELECT * FROM "Countries" WHERE name = \'{country}\';')
+    cursor.execute(f'SELECT * FROM "Countries1" WHERE name = \'{country}\';')
     row = cursor.fetchone()
 
     if not row:
@@ -110,7 +96,7 @@ def addPrice(country, newData: AddData = Body(...)):
     #  first check to make sure we have the right data format
     #  send back to user and print data
     country = country.title()
-    cursor.execute(f'SELECT * FROM "Countries" WHERE name = \'{country}\';')
+    cursor.execute(f'SELECT * FROM "Countries1" WHERE name = \'{country}\';')
     row = cursor.fetchone()
 
 
@@ -126,9 +112,9 @@ def addPrice(country, newData: AddData = Body(...)):
                 IF NOT EXISTS (
                     SELECT 1
                     FROM information_schema.columns 
-                    WHERE table_name='Countries' AND column_name= \'{itemName}\'
+                    WHERE table_name='Countries1' AND column_name= \'{itemName}\'
                 ) THEN
-                    ALTER TABLE "Countries" ADD COLUMN "{itemName}" NUMERIC;
+                    ALTER TABLE "Countries1" ADD COLUMN "{itemName}" NUMERIC;
                 END IF;
             END
             $$;
@@ -139,7 +125,7 @@ def addPrice(country, newData: AddData = Body(...)):
     
     for itemName, itemPrice in newData.items.items():
         cursor.execute(
-            f'UPDATE "Countries" SET "{itemName}" = %s WHERE name = %s;',
+            f'UPDATE "Countries1" SET "{itemName}" = %s WHERE name = %s;',
             (itemPrice, country)
         )
     
