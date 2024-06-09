@@ -2,11 +2,10 @@ from fastapi import FastAPI, status, HTTPException, Body, Depends
 from pydantic import BaseModel
 import psycopg2
 from psycopg2.extras import RealDictCursor
-import models
 from database import engine, Base, get_db
-from sqlalchemy.orm import Session 
-from sqlalchemy import Table, MetaData
-
+from sqlalchemy.orm import Session
+from sqlalchemy import Table, MetaData, Column, Integer
+from contextlib import contextmanager
 
 app = FastAPI()
 
@@ -15,7 +14,11 @@ countriesTable = Table('Countries1', metadata, autoload_with=engine)
 
 password = open(r"C:\Users\dadaa\OneDrive\Desktop\password.txt", "r").read()
 password = password.strip()
-try:
+
+
+@contextmanager
+def psycopg2Cursor():
+
     conn = psycopg2.connect(
     dbname="ItemsAPI",
     user="postgres",
@@ -23,20 +26,24 @@ try:
     host="localhost",
     port="5432",
     cursor_factory=RealDictCursor
-)
-    cursor = conn.cursor()
-   
-except Exception as Ex:
-    print("Error", Ex.args[0])
-
-
-
+    )
+    try:
+        cursor = conn.cursor()
+        yield cursor
+        conn.commit()
+    
+    except Exception as Ex:
+        conn.rollback()
+        raise Ex
+    
+    finally:
+        cursor.close()
+        conn.close()
 
 class AddData(BaseModel):
     #  this makes sure we are getting the right data format else it
     # throws and error
     items: dict
-
 
 @app.get("/")
 def root(db: Session = Depends(get_db)):
@@ -49,7 +56,7 @@ def root(db: Session = Depends(get_db)):
 
     countries = db.query(countriesTable).all()
     countryNames = [row.name for row in countries]
-    return {"message": f"Welcome to my API. Below is a list of all countries available.",
+    return {"message": f"Welcome to my Items API. Below is a list of all countries available.",
             "countries": countryNames}
 
     # note: fetch all or fetch one fetch the row(s) as dict
@@ -71,24 +78,20 @@ def getPrices(db: Session = Depends(get_db)):
     return resultDict
 
 @app.get("/countries/{country}")
-def getCountryPrices(country: str):
+def getCountryPrices(country: str, db: Session = Depends(get_db)):
     #  in this path we should return a json of just a country
     #  and its items and prices
     country = country.title()
 
-    cursor.execute(f'SELECT * FROM "Countries1" WHERE name = \'{country}\';')
-    row = cursor.fetchone()
-
+    row = db.query(countriesTable).filter(countriesTable.c.name == country).first()
+    #  check if the row is valid i.e country in data base else raise error
     if not row:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"{country} not found")
-    #  check if the row is valid i.e country in data base else raise error
-    
-    items = {key: value for key, value in row.items() if key != 'name'}
-    #  create dict with keys and values from row in database
-
-    return {"Country": country,
-            "Items": items}
+    #  format the data
+    rowDict = {column: value for column, value in zip(countriesTable.columns.keys(), row)}
+    items = {key: value for key, value in rowDict.items() if key != 'name'}
+    return {"Country": country, "Items": items}
 
 
 @app.post("/countries/{country}", status_code=status.HTTP_201_CREATED)
@@ -96,43 +99,43 @@ def addPrice(country, newData: AddData = Body(...)):
     #  first check to make sure we have the right data format
     #  send back to user and print data
     country = country.title()
-    cursor.execute(f'SELECT * FROM "Countries1" WHERE name = \'{country}\';')
-    row = cursor.fetchone()
+    with psycopg2Cursor() as cursor:
+        cursor.execute(f'SELECT * FROM "Countries1" WHERE name = \'{country}\';')
+        row = cursor.fetchone()
 
-
-    if not row:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"{country} not found")
-    # check i fthe row is valid i.e the country is in the database
-    
-    for itemName in newData.items.keys():
-        cursor.execute(f"""
-            DO $$
-            BEGIN
-                IF NOT EXISTS (
-                    SELECT 1
-                    FROM information_schema.columns 
-                    WHERE table_name='Countries1' AND column_name= \'{itemName}\'
-                ) THEN
-                    ALTER TABLE "Countries1" ADD COLUMN "{itemName}" NUMERIC;
-                END IF;
-            END
-            $$;
-        """)
-    
-    #  create new row with the name of the item if the row is not already available
-    #  note: null will be the value
-    
-    for itemName, itemPrice in newData.items.items():
-        cursor.execute(
-            f'UPDATE "Countries1" SET "{itemName}" = %s WHERE name = %s;',
-            (itemPrice, country)
-        )
-    
+        if not row:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                                detail=f"{country} not found")
+        # check i fthe row is valid i.e the country is in the database
+        
+        for itemName in newData.items.keys():
+            cursor.execute(f"""
+                DO $$
+                BEGIN
+                    IF NOT EXISTS (
+                        SELECT 1
+                        FROM information_schema.columns 
+                        WHERE table_name='Countries1' AND column_name= \'{itemName}\'
+                    ) THEN
+                        ALTER TABLE "Countries1" ADD COLUMN "{itemName}" NUMERIC;
+                    END IF;
+                END
+                $$;
+            """)
+        
+        #  create new row with the name of the item if the row is not already available
+        #  note: null will be the value
+        
+        for itemName, itemPrice in newData.items.items():
+            cursor.execute(
+                f'UPDATE "Countries1" SET "{itemName}" = %s WHERE name = %s;',
+                (itemPrice, country)
+            )
+        
     # update the database i.e replace null with the right stuff
     
-    conn.commit()
+    return {"Added prices": {"Country" : country.title(), "items": newData.items()}}
 
-    return {"Added price": {"Country" : country.title(), "items": newData.items()}}
-
-
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True, reload_dirs=['/app'])
