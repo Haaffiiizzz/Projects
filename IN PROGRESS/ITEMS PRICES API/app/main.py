@@ -1,11 +1,11 @@
 from fastapi import FastAPI, status, HTTPException, Body, Depends
-from pydantic import BaseModel
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from database import engine, Base, get_db
 from sqlalchemy.orm import Session
-from sqlalchemy import Table, MetaData, Column, Integer
+from sqlalchemy import Table, MetaData
 from contextlib import contextmanager
+import schemas
 
 app = FastAPI()
 
@@ -40,27 +40,16 @@ def psycopg2Cursor():
         cursor.close()
         conn.close()
 
-class AddData(BaseModel):
-    #  this makes sure we are getting the right data format else it
-    # throws and error
-    items: dict
 
 @app.get("/")
 def root(db: Session = Depends(get_db)):
     # this is the base site without any paths
-
-    # cursor.execute('SELECT name FROM "Countries1";')
-    # countries = cursor.fetchall()
-    # countryNames = [country['name'] for country in countries]  # basically saying for dict in the list of dicts?
-    # # or dict of dict i think. doesnt matter lol
 
     countries = db.query(countriesTable).all()
     countryNames = [row.name for row in countries]
     return {"message": f"Welcome to my Items API. Below is a list of all countries available.",
             "countries": countryNames}
 
-    # note: fetch all or fetch one fetch the row(s) as dict
-    #  so each row column title as jey, and the row value as values
 
 @app.get("/countries")
 def getPrices(db: Session = Depends(get_db)):
@@ -94,8 +83,8 @@ def getCountryPrices(country: str, db: Session = Depends(get_db)):
     return {"Country": country, "Items": items}
 
 
-@app.post("/countries/{country}", status_code=status.HTTP_201_CREATED)
-def addPrice(country, newData: AddData = Body(...)):
+@app.put("/countries/{country}", status_code=status.HTTP_201_CREATED)
+def addPrice(country, newData: schemas.AddData = Body(...)):
     #  first check to make sure we have the right data format
     #  send back to user and print data
     country = country.title()
@@ -135,6 +124,7 @@ def addPrice(country, newData: AddData = Body(...)):
     # update the database i.e replace null with the right stuff
     
     return {"Added prices": {"Country" : country.title(), "items": newData.items()}}
+
 
 if __name__ == "__main__":
     import uvicorn
