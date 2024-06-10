@@ -144,6 +144,15 @@ def createUser(user: schemas.CreateUser, db: Session = Depends(get_db)):
     return newUser
 
 
+@app.get("/users/{id}", status_code=status.HTTP_201_CREATED, response_model=schemas.UserResponse)
+def getUser(id: int, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == id).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"User with {id} not found")
+
+    return user
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True, reload_dirs=['/app'])
