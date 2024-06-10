@@ -7,6 +7,9 @@ from sqlalchemy import Table, MetaData
 from contextlib import contextmanager
 import schemas
 import models
+from passlib.context import CryptContext
+
+passwordContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 app = FastAPI()
 
@@ -131,6 +134,9 @@ def addPrice(country, newData: schemas.AddData = Body(...)):
 
 @app.post("/users", status_code=status.HTTP_201_CREATED, response_model=schemas.UserResponse)
 def createUser(user: schemas.CreateUser, db: Session = Depends(get_db)):
+    
+    hashedPassword = passwordContext.hash(user.password)
+    user.password = hashedPassword
     newUser = models.User(**user.dict())
     db.add(newUser)
     db.commit()
