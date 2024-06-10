@@ -7,9 +7,8 @@ from sqlalchemy import Table, MetaData
 from contextlib import contextmanager
 import schemas
 import models
-from passlib.context import CryptContext
+from utils import hashPassword
 
-passwordContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 app = FastAPI()
 
@@ -18,7 +17,6 @@ countriesTable = Table('Countries1', metadata, autoload_with=engine)
 
 password = open(r"C:\Users\dadaa\OneDrive\Desktop\password.txt", "r").read()
 password = password.strip()
-
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -71,6 +69,7 @@ def getPrices(db: Session = Depends(get_db)):
         resultDict[name] = itemsDict
 
     return resultDict
+
 
 @app.get("/countries/{country}")
 def getCountryPrices(country: str, db: Session = Depends(get_db)):
@@ -135,7 +134,7 @@ def addPrice(country, newData: schemas.AddData = Body(...)):
 @app.post("/users", status_code=status.HTTP_201_CREATED, response_model=schemas.UserResponse)
 def createUser(user: schemas.CreateUser, db: Session = Depends(get_db)):
     
-    hashedPassword = passwordContext.hash(user.password)
+    hashedPassword = hashPassword(user.password)
     user.password = hashedPassword
     newUser = models.User(**user.dict())
     db.add(newUser)
