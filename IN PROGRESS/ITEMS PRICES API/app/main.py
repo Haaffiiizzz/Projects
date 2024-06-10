@@ -129,12 +129,14 @@ def addPrice(country, newData: schemas.AddData = Body(...)):
     return {"Added prices": {"Country" : country.title(), "items": newData.items()}}
 
 
-@app.post("/users", status_code=status.HTTP_201_CREATED)
-def createUser(user: schemas.CreateUser = Body(...), db: Session = Depends(get_db)):
-    newUser = models.User(**user)
+@app.post("/users", status_code=status.HTTP_201_CREATED, response_model=schemas.UserResponse)
+def createUser(user: schemas.CreateUser, db: Session = Depends(get_db)):
+    newUser = models.User(**user.dict())
     db.add(newUser)
     db.commit()
     db.refresh(newUser)
+
+    return newUser
 
 
 if __name__ == "__main__":
