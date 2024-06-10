@@ -1,11 +1,12 @@
 from fastapi import FastAPI, status, HTTPException, Body, Depends
 import psycopg2
 from psycopg2.extras import RealDictCursor
-from database import engine, Base, get_db
+from database import engine, get_db
 from sqlalchemy.orm import Session
 from sqlalchemy import Table, MetaData
 from contextlib import contextmanager
 import schemas
+import models
 
 app = FastAPI()
 
@@ -15,6 +16,8 @@ countriesTable = Table('Countries1', metadata, autoload_with=engine)
 password = open(r"C:\Users\dadaa\OneDrive\Desktop\password.txt", "r").read()
 password = password.strip()
 
+
+models.Base.metadata.create_all(bind=engine)
 
 @contextmanager
 def psycopg2Cursor():
@@ -124,6 +127,14 @@ def addPrice(country, newData: schemas.AddData = Body(...)):
     # update the database i.e replace null with the right stuff
     
     return {"Added prices": {"Country" : country.title(), "items": newData.items()}}
+
+
+@app.post("/users", status_code=status.HTTP_201_CREATED)
+def createUser(user: schemas.CreateUser = Body(...), db: Session = Depends(get_db)):
+    newUser = models.User(**user)
+    db.add(newUser)
+    db.commit()
+    db.refresh(newUser)
 
 
 if __name__ == "__main__":

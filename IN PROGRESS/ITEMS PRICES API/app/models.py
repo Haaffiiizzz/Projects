@@ -1,12 +1,11 @@
 from database import Base
-from sqlalchemy import Column, String, JSON
-class Countries(Base):
-    __tablename__ = "countries"
+from sqlalchemy import Column, Integer, String, TIMESTAMP, text
 
-    name = Column(String, primary_key = True, nullable =False)
-    items = Column(JSON, nullable=False)
+class User(Base):
+    __tablename__ = "users"
+    email = Column(String, nullable=False, unique=True)
+    password = Column(String, nullable=False)
+    id = Column(Integer, primary_key= True, nullable=False)
+    createdAt = Column(TIMESTAMP(timezone=True), nullable=False, 
+                       server_default= text('now()'))
 
-# class Country(Base):
-#     __tablename__ = "countries1"
-
-#     name = Column(String, primary_key=True, nullable=False)
