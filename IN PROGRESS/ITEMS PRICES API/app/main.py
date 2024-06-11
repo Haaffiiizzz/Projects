@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from database import engine
 from sqlalchemy import Table, MetaData
 import models
-from routers import users, country
+from routers import users, country, auth
 
 
 
@@ -14,3 +14,4 @@ app = FastAPI()
 
 app.include_router(country.router)
 app.include_router(users.router)
+app.include_router(auth.router)
