@@ -10,7 +10,7 @@ import models
 
 
 
-router = APIRouter()
+router = APIRouter(tags= ["Countries"])
 
 metadata = MetaData()
 countriesTable = Table('Countries1', metadata, autoload_with=engine)
@@ -56,7 +56,7 @@ def root(db: Session = Depends(get_db)):
 
 
 @router.get("/countries")
-def getPrices(db: Session = Depends(get_db)):
+def Get_All_Countries(db: Session = Depends(get_db)):
 
     countries = db.query(countriesTable).all()
     result = [{column.name: getattr(row, column.name) for column in countriesTable.columns} for row in countries]
@@ -72,7 +72,7 @@ def getPrices(db: Session = Depends(get_db)):
 
 
 @router.get("/countries/{country}")
-def getCountryPrices(country: str, db: Session = Depends(get_db)):
+def Get_One_Country(country: str, db: Session = Depends(get_db)):
     #  in this path we should return a json of just a country
     #  and its items and prices
     country = country.title()
@@ -89,7 +89,7 @@ def getCountryPrices(country: str, db: Session = Depends(get_db)):
 
 
 @router.put("/countries/{country}", status_code=status.HTTP_201_CREATED)
-def addPrice(country, newData: schemas.AddData = Body(...)):
+def Add_Items(country, newData: schemas.AddData = Body(...)):
     #  first check to make sure we have the right data format
     #  send back to user and print data
     country = country.title()
