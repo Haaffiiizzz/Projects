@@ -15,4 +15,5 @@ pydantics
 fastapi
 psycopg2
 sqlalchemy
+passlib
 
