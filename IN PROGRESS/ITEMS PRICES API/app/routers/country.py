@@ -1,4 +1,4 @@
-from fastapi import FastAPI, status, HTTPException, Body, Depends
+from fastapi import status, HTTPException, Body, Depends, APIRouter
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from database import engine, get_db
@@ -7,10 +7,10 @@ from sqlalchemy import Table, MetaData
 from contextlib import contextmanager
 import schemas
 import models
-from utils import hashPassword
 
 
-app = FastAPI()
+
+router = APIRouter()
 
 metadata = MetaData()
 countriesTable = Table('Countries1', metadata, autoload_with=engine)
@@ -45,7 +45,7 @@ def psycopg2Cursor():
         conn.close()
 
 
-@app.get("/")
+@router.get("/")
 def root(db: Session = Depends(get_db)):
     # this is the base site without any paths
 
@@ -55,7 +55,7 @@ def root(db: Session = Depends(get_db)):
             "countries": countryNames}
 
 
-@app.get("/countries")
+@router.get("/countries")
 def getPrices(db: Session = Depends(get_db)):
 
     countries = db.query(countriesTable).all()
@@ -71,7 +71,7 @@ def getPrices(db: Session = Depends(get_db)):
     return resultDict
 
 
-@app.get("/countries/{country}")
+@router.get("/countries/{country}")
 def getCountryPrices(country: str, db: Session = Depends(get_db)):
     #  in this path we should return a json of just a country
     #  and its items and prices
@@ -88,7 +88,7 @@ def getCountryPrices(country: str, db: Session = Depends(get_db)):
     return {"Country": country, "Items": items}
 
 
-@app.put("/countries/{country}", status_code=status.HTTP_201_CREATED)
+@router.put("/countries/{country}", status_code=status.HTTP_201_CREATED)
 def addPrice(country, newData: schemas.AddData = Body(...)):
     #  first check to make sure we have the right data format
     #  send back to user and print data
