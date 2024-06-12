@@ -7,7 +7,7 @@ from sqlalchemy import Table, MetaData
 from contextlib import contextmanager
 import schemas
 import models
-
+import oauth2 
 
 
 router = APIRouter(tags= ["Countries"])
@@ -89,9 +89,11 @@ def Get_One_Country(country: str, db: Session = Depends(get_db)):
 
 
 @router.put("/countries/{country}", status_code=status.HTTP_201_CREATED)
-def Add_Items(country, newData: schemas.AddData = Body(...)):
+def Add_Items(country, newData: schemas.AddData = Body(...), user_id: int = Depends(oauth2.getCurrentUser)):
     #  first check to make sure we have the right data format
     #  send back to user and print data
+
+    
     country = country.title()
     with psycopg2Cursor() as cursor:
         cursor.execute(f'SELECT * FROM "Countries1" WHERE name = \'{country}\';')
@@ -100,7 +102,7 @@ def Add_Items(country, newData: schemas.AddData = Body(...)):
         if not row:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                                 detail=f"{country} not found")
-        # check i fthe row is valid i.e the country is in the database
+        # check if the row is valid i.e the country is in the database
         
         for itemName in newData.items.keys():
             cursor.execute(f"""
@@ -128,4 +130,4 @@ def Add_Items(country, newData: schemas.AddData = Body(...)):
         
     # update the database i.e replace null with the right stuff
     
-    return {"Added prices": {"Country" : country.title(), "items": newData.items()}}
+    return {"Added prices": {"Country" : country.title(), "items": newData}}

@@ -28,10 +28,11 @@ def verifyToken(token: str, credentialsException):
         if not id:
             raise credentialsException
         
-        token_data = schemas.TokenData(id=id)
+        token_data = schemas.TokenData(id=str(id))
     
     except JWTError:
         raise credentialsException
+    
     return token_data
 
 def getCurrentUser(token: str = Depends(oauth2_scheme)):
