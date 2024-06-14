@@ -89,7 +89,7 @@ def Get_One_Country(country: str, db: Session = Depends(get_db)):
 
 
 @router.put("/countries/{country}", status_code=status.HTTP_201_CREATED)
-def Add_Items(country, newData: schemas.AddData = Body(...), user_id: int = Depends(oauth2.getCurrentUser)):
+def Add_Items(country, newData: schemas.AddData = Body(...), currUser: int = Depends(oauth2.getCurrentUser)):
     #  first check to make sure we have the right data format
     #  send back to user and print data
 

@@ -29,7 +29,7 @@ def Create_User(user: schemas.CreateUser, db: Session = Depends(get_db)):
 
 
 @router.get("/{id}", status_code=status.HTTP_201_CREATED, response_model=schemas.UserResponse)
-def Get_User(id: int, db: Session = Depends(get_db), user_id: int = Depends(oauth2.getCurrentUser)):
+def Get_User(id: int, db: Session = Depends(get_db), currUser: int = Depends(oauth2.getCurrentUser)):
     user = db.query(models.User).filter(models.User.id == id).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
