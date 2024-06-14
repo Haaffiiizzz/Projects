@@ -10,7 +10,7 @@ import models
 import oauth2 
 
 
-router = APIRouter(tags= ["Countries"])
+router = APIRouter(tags= ["Countries"])  # tags is for what group it should add it to in the fastapi doc
 
 metadata = MetaData()
 countriesTable = Table('Countries1', metadata, autoload_with=engine)
@@ -22,6 +22,7 @@ models.Base.metadata.create_all(bind=engine)
 
 @contextmanager
 def psycopg2Cursor():
+    # this is for use in adding to the countries as I couldnt use sqlalchemy
 
     conn = psycopg2.connect(
     dbname="ItemsAPI",

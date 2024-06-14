@@ -14,4 +14,4 @@ app = FastAPI()
 
 app.include_router(country.router)
 app.include_router(users.router)
-app.include_router(auth.router)
+app.include_router(auth.router)    # add the routes from the other files

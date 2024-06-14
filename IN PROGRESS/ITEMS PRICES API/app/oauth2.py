@@ -9,7 +9,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 SECRET_KEY = "09d25e094faa6ca2556c81816637a9563b93f7099f6f0f4caa6cf63b88e8d3h7"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 1
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 def createToken(data: dict):
     toEncode= data.copy()
@@ -19,8 +19,11 @@ def createToken(data: dict):
 
     encodedJWT = jwt.encode(toEncode, SECRET_KEY, algorithm = ALGORITHM)
     return encodedJWT
+    # here the token is created using the payload(toEncode), secret key and algorithm
 
 def verifyToken(token: str, credentialsException):
+    # this function is only called by getcurrent user which is what we call in the other files
+    # we dint call this directly in the other files
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         id: str = payload.get("user_id")

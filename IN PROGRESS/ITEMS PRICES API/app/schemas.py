@@ -2,6 +2,7 @@ from pydantic import BaseModel, EmailStr
 from typing import Optional
 from datetime import datetime
 
+# this is where the models for the input and outputs are
 class AddData(BaseModel):
     #  this makes sure we are getting the right data format else it
     # throws an error

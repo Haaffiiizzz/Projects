@@ -17,7 +17,7 @@ models.Base.metadata.create_all(bind=engine)
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.UserResponse)
 def Create_User(user: schemas.CreateUser, db: Session = Depends(get_db)):
-    
+    # hash the password then add the edited input (user) to the database
     hashedPassword = hashPassword(user.password)
     user.password = hashedPassword
     newUser = models.User(**user.dict())
@@ -30,6 +30,8 @@ def Create_User(user: schemas.CreateUser, db: Session = Depends(get_db)):
 
 @router.get("/{id}", status_code=status.HTTP_201_CREATED, response_model=schemas.UserResponse)
 def Get_User(id: int, db: Session = Depends(get_db), currUser: int = Depends(oauth2.getCurrentUser)):
+    # get a particular user's info
+    # with depends, code doesnt run unless it happens
     user = db.query(models.User).filter(models.User.id == id).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,

@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-
+# here we just kinda start the database 
 password = open(r"C:\Users\dadaa\OneDrive\Desktop\password.txt", "r").read()
 password = password.strip()
 
