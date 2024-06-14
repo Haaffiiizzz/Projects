@@ -56,9 +56,9 @@ def root(db: Session = Depends(get_db)):
 
 
 @router.get("/countries")
-def Get_All_Countries(db: Session = Depends(get_db)):
+def Get_All_Countries(db: Session = Depends(get_db), limit: int = None):
 
-    countries = db.query(countriesTable).all()
+    countries = db.query(countriesTable).limit(limit).all()
     result = [{column.name: getattr(row, column.name) for column in countriesTable.columns} for row in countries]
     # result is a list of dicts, with each cloumn name in the table as key
     # and the items in the columns as values
