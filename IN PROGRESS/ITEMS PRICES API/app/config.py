@@ -14,4 +14,3 @@ class Settings(BaseSettings):
         env_file = "IN PROGRESS\ITEMS PRICES API\.env"
 
 settings = Settings()
-print(settings.database_name)
