@@ -3,8 +3,7 @@ from database import engine
 from sqlalchemy import Table, MetaData
 import models
 from routers import users, country, auth
-
-
+from config import Settings
 
 metadata = MetaData()
 countriesTable = Table('Countries1', metadata, autoload_with=engine)
