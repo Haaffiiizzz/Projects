@@ -11,6 +11,6 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int
 
     class Config:
-        env_file = "IN PROGRESS\ITEMS PRICES API\.env"
+        env_file = r"C:\Users\dadaa\Projects\IN PROGRESS\ITEMS PRICES API\.env"
 
 settings = Settings()
