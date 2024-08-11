@@ -8,5 +8,6 @@ if response.status_code == 200:
 else:    
     raise Exception("Not 200 code")
 
-with open(r"IN PROGRESS\COMMON ITEM-CURRENCY COMPARER\rates.json", "w") as file:
-    json.dump(ratesDict, file, indent=2)
+# with open(r"IN PROGRESS\COMMON ITEM-CURRENCY COMPARER\rates.json", "w") as file:
+#     json.dump(ratesDict, file, indent=2)
+print(ratesDict)
