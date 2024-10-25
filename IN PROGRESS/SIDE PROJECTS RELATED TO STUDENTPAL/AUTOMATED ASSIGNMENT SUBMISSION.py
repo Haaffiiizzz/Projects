@@ -26,7 +26,7 @@ menu.click()
 
 profile = driver.find_element(By.XPATH, "//*[@id='carousel-item-main']/a[1]" )
 profile.click()
-#commit
+#commit plerase
 
 
 
