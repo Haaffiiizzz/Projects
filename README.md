@@ -4,7 +4,7 @@ Modules:
 turtle
 selenium
 urllib3
-PyQt6
+PyQt6 
 win10Toast
 playsoundmn
 schedule
