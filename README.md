@@ -6,7 +6,7 @@ selenium
 urllib3
 PyQt6
 win10Toast
-playsound
+playsoundmn
 schedule
 BeautifulSoup
 tkinter
