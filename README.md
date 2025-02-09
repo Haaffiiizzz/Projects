@@ -17,4 +17,5 @@ psycopg2
 sqlalchemy
 passlib
 alembic
-
+tensorflow
+..
