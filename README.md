@@ -19,3 +19,4 @@ passlib
 alembic
 tensorflow
 ..
+OpenAI
