@@ -17,6 +17,5 @@ psycopg2
 sqlalchemy
 passlib
 alembic
-tensorflow
-..
+pytorch
 OpenAI
